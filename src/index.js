@@ -1,4 +1,7 @@
-const cytoscape = require('cytoscape')
+import cytoscape from 'cytoscape'
+
+import './index.css'
+console.log('qq')
 
 const cy = cytoscape({
   container: document.getElementById('cy'),
@@ -11,6 +14,21 @@ const cy = cytoscape({
     },
     {
       data: { id: 'c', source: 'a', target: 'b' }
+    },
+    {
+      data: { id: 'd' }
+    },
+    {
+      data: { id: 'e' }
+    },
+    {
+      data: { id: 'f', source: 'd', target: 'e' }
+    },
+    {
+      data: { id: 'ff', source: 'e', target: 'a' }
+    },
+    {
+      data: { id: 'fff', source: 'd', target: 'b' }
     }
   ],
   style: [
