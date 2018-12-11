@@ -9,6 +9,13 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/env', '@babel/react']
+        }
       }
     ]
   },
@@ -19,9 +26,16 @@ module.exports = {
     ]
   },
   devtool: 'source-map',
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM'
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html'
     })
-  ]
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist')
+  }
 }
