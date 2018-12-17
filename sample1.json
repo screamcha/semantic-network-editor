@@ -12,6 +12,7 @@
     ],
     "connections": [
         {
+            "id": "1",
             "source": "vertex1",
             "target": "vertex2",
             "type": "1"

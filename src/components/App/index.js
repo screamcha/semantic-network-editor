@@ -1,59 +1,36 @@
 import React from 'react'
 import cytoscape from 'cytoscape'
+import { saveAs } from 'file-saver'
 import FilePicker from '../FilePicker'
+import Graph from '../Graph'
+import { JSONToCytoscape, cytoscapeToJSON } from '../../utils/parsers'
 
 import './styles.css'
 
 class App extends React.PureComponent {
-  componentDidMount () {
+  drawGraph = (json) => {
+    const options = JSONToCytoscape(json)
+    console.log(options)
     this.cy = cytoscape({
       container: document.getElementById('cy'),
-      elements: [
-        {
-          data: { id: 'a' }
-        },
-        {
-          data: { id: 'b' }
-        },
-        {
-          data: { id: 'ab', source: 'a', target: 'b' }
-        }
-      ],
-      style: [ // the stylesheet for the graph
-        {
-          selector: 'node',
-          style: {
-            'background-color': '#666',
-            'label': 'data(id)'
-          }
-        },
-
-        {
-          selector: 'edge',
-          style: {
-            'width': 3,
-            'line-color': '#ccc',
-            'target-arrow-color': '#ccc',
-            'target-arrow-shape': 'triangle'
-          }
-        }
-      ],
-      layout: {
-        name: 'grid',
-        rows: 3
-      }
+      ...options
     })
   }
 
-  drawGraph = (json) => {
+  saveGraph = () => {
+    const data = this.cy.json()
+    const json = cytoscapeToJSON(data)
     console.log(json)
+
+    const file = new File([JSON.stringify(json)], 'file1.json', { type: 'application/json;charset=utf-8' })
+    saveAs(file)
   }
 
   render () {
     return (
       <React.Fragment>
         <FilePicker onReadEnd={this.drawGraph} />
-        <div id='cy' />
+        <Graph onSave={this.saveGraph} />
       </React.Fragment>
     )
   }
