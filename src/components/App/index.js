@@ -1,5 +1,6 @@
 import React from 'react'
 import cytoscape from 'cytoscape'
+import FilePicker from '../FilePicker'
 
 import './styles.css'
 
@@ -43,9 +44,17 @@ class App extends React.PureComponent {
       }
     })
   }
+
+  drawGraph = (json) => {
+    console.log(json)
+  }
+
   render () {
     return (
-      <div id='cy' />
+      <React.Fragment>
+        <FilePicker onReadEnd={this.drawGraph} />
+        <div id='cy' />
+      </React.Fragment>
     )
   }
 }

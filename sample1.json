@@ -1,0 +1,20 @@
+{
+    "elements": [
+        {
+            "id": "vertex1"
+        },
+        {
+            "id": "vertex2"
+        },
+        {
+            "id": "vertex3"
+        }
+    ],
+    "connections": [
+        {
+            "source": "vertex1",
+            "target": "vertex2",
+            "type": "1"
+        }
+    ]
+}
