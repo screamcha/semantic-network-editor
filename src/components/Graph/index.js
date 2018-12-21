@@ -3,13 +3,12 @@ import React from 'react'
 import './styles.css'
 
 const Graph = (props) => {
-  const { onSave, getRootRef } = props
+  const { getRootRef } = props
 
   return (
-    <React.Fragment>
-      <button type='button' onClick={onSave}>Save results</button>
+    <section className='graph-container'>
       <div id='cy' ref={getRootRef} />
-    </React.Fragment>
+    </section>
   )
 }
 

@@ -1,8 +1,10 @@
+/* global File */
 import React from 'react'
 import cytoscape from 'cytoscape'
 import edgehandles from 'cytoscape-edgehandles'
 import { saveAs } from 'file-saver'
 import FilePicker from '../FilePicker'
+import Dashboard from '../Dashboard'
 import Graph from '../Graph'
 import { JSONToCytoscape, cytoscapeToJSON } from '../../utils/parsers'
 import { nodeStyle, edgeStyles, edgehandlesStyles, edgehandlesOptions } from '../../utils/options'
@@ -12,6 +14,10 @@ import './styles.css'
 cytoscape.use(edgehandles)
 
 class App extends React.PureComponent {
+  state = {
+    tappedElement: null
+  }
+
   getCyRootRef = (element) => {
     this.cyRootRef = element
   }
@@ -34,23 +40,34 @@ class App extends React.PureComponent {
       layout
     })
 
+    this.cy.on('tap', this.selectElement)
+
     this.eh = this.cy.edgehandles(edgehandlesOptions)
   }
 
   saveGraph = () => {
     const data = this.cy.json()
     const json = cytoscapeToJSON(data)
-    console.log(json)
 
     const file = new File([JSON.stringify(json)], 'file1.json', { type: 'application/json;charset=utf-8' })
     saveAs(file)
   }
 
+  selectElement = ({ target: element }) => {
+    this.setState({ tappedElement: element })
+  }
+
   render () {
+    const { tappedElement } = this.state
+
     return (
       <React.Fragment>
         <FilePicker onReadEnd={this.drawGraph} />
-        <Graph onSave={this.saveGraph} getRootRef={this.getCyRootRef} />
+        <button type='button' onClick={this.saveGraph}>Save results</button>
+        <div className='main-panel'>
+          <Graph onSave={this.saveGraph} getRootRef={this.getCyRootRef} />
+          <Dashboard element={tappedElement} />
+        </div>
       </React.Fragment>
     )
   }
