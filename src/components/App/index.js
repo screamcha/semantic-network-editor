@@ -1,20 +1,40 @@
 import React from 'react'
 import cytoscape from 'cytoscape'
+import edgehandles from 'cytoscape-edgehandles'
 import { saveAs } from 'file-saver'
 import FilePicker from '../FilePicker'
 import Graph from '../Graph'
 import { JSONToCytoscape, cytoscapeToJSON } from '../../utils/parsers'
+import { nodeStyle, edgeStyles, edgehandlesStyles, edgehandlesOptions } from '../../utils/options'
 
 import './styles.css'
 
+cytoscape.use(edgehandles)
+
 class App extends React.PureComponent {
+  getCyRootRef = (element) => {
+    this.cyRootRef = element
+  }
+
   drawGraph = (json) => {
-    const options = JSONToCytoscape(json)
-    console.log(options)
+    const elements = JSONToCytoscape(json)
+    const edgeStyle = edgeStyles[0]
+    const layout = {
+      name: 'preset'
+    }
+
     this.cy = cytoscape({
-      container: document.getElementById('cy'),
-      ...options
+      container: this.cyRootRef,
+      elements,
+      style: [
+        nodeStyle,
+        edgeStyle,
+        ...edgehandlesStyles
+      ],
+      layout
     })
+
+    this.eh = this.cy.edgehandles(edgehandlesOptions)
   }
 
   saveGraph = () => {
@@ -30,7 +50,7 @@ class App extends React.PureComponent {
     return (
       <React.Fragment>
         <FilePicker onReadEnd={this.drawGraph} />
-        <Graph onSave={this.saveGraph} />
+        <Graph onSave={this.saveGraph} getRootRef={this.getCyRootRef} />
       </React.Fragment>
     )
   }
