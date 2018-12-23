@@ -11,16 +11,15 @@ export const nodeStyle = {
   }
 }
 
-export const edgeStyles = [
-  {
-    selector: 'edge',
-    style: {
-      'width': 3,
-      'curve-style': 'straight',
-      'target-arrow-shape': 'triangle'
-    }
+export const edgeStyle = {
+  selector: 'edge',
+  style: {
+    'width': 3,
+    'curve-style': 'straight',
+    'target-arrow-shape': 'triangle'
   }
-]
+}
+
 
 export const edgehandlesStyles = [
   {
