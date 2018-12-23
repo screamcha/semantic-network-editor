@@ -29,6 +29,7 @@ export const edgehandlesStyles = [
       'background-color': 'red',
       'label': '',
       'width': 1,
+      'height': 1,
       'shape': 'ellipse',
       'overlay-opacity': 0,
       'border-opacity': 0
