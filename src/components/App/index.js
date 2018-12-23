@@ -42,10 +42,15 @@ class App extends React.PureComponent {
       layout
     })
 
-    this.cy.on('tap', this.selectElement)
-
     this.eh = this.cy.edgehandles(edgehandlesOptions)
 
+    this.cy.on('tap', this.selectElement)
+    this.cy.on('ehcomplete', (event, sourceNode, targetNode, addedEles) => {
+      if (sourceNode.edgesWith(targetNode).length > 1) {
+        this.cy.remove(addedEles)
+      }
+      targetNode.removeClass('eh-target-approve eh-target-decline')
+    })
   }
 
   saveGraph = () => {
