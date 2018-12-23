@@ -6,8 +6,8 @@ import { saveAs } from 'file-saver'
 import FilePicker from '../FilePicker'
 import Dashboard from '../Dashboard'
 import Graph from '../Graph'
-import { JSONToCytoscape, cytoscapeToJSON } from '../../utils/parsers'
-import { nodeStyle, edgeStyles, edgehandlesStyles, edgehandlesOptions } from '../../utils/options'
+import { JSONToCytoscape, cytoscapeToJSON, generateEdgeStyles } from '../../utils/parsers'
+import { nodeStyle, edgeStyle, edgehandlesStyles, edgehandlesOptions } from '../../utils/options'
 
 import './styles.css'
 
@@ -23,8 +23,10 @@ class App extends React.PureComponent {
   }
 
   drawGraph = (json) => {
-    const elements = JSONToCytoscape(json)
-    const edgeStyle = edgeStyles[0]
+    const parsedJSON = JSONToCytoscape(json)
+    const elements = parsedJSON.elements
+    window.edgeStylesConfig = parsedJSON.edgeStylesConfig
+    const edgeStyles = [edgeStyle, ...generateEdgeStyles(parsedJSON.edgeTypes)]
     const layout = {
       name: 'preset'
     }
@@ -34,7 +36,7 @@ class App extends React.PureComponent {
       elements,
       style: [
         nodeStyle,
-        edgeStyle,
+        ...edgeStyles,
         ...edgehandlesStyles
       ],
       layout
@@ -43,13 +45,14 @@ class App extends React.PureComponent {
     this.cy.on('tap', this.selectElement)
 
     this.eh = this.cy.edgehandles(edgehandlesOptions)
+
   }
 
   saveGraph = () => {
     const data = this.cy.json()
     const json = cytoscapeToJSON(data)
 
-    const file = new File([JSON.stringify(json)], 'file1.json', { type: 'application/json;charset=utf-8' })
+    const file = new File([JSON.stringify(json, null, ' ')], 'file1.json', { type: 'application/json;charset=utf-8' })
     saveAs(file)
   }
 
