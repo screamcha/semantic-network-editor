@@ -26,7 +26,7 @@ export const edgehandlesStyles = [
   {
     selector: '.eh-handle',
     style: {
-      'background-color': 'red',
+      'background-color': 'orange',
       'label': '',
       'width': 1,
       'height': 1,
@@ -36,32 +36,33 @@ export const edgehandlesStyles = [
     }
   },
   {
-    selector: '.eh-hover',
-    style: {
-      'background-color': 'red'
-    }
-  },
-  {
     selector: '.eh-source',
     style: {
       'border-width': 2,
-      'border-color': 'red'
+      'border-color': 'orange'
     }
   },
   {
-    selector: '.eh-target',
+    selector: '.eh-target-approve',
     style: {
-      'border-width': 2,
-      'border-color': 'red'
+      'background-color': 'green'
     }
   },
   {
-    selector: '.eh-preview, .eh-ghost-edge',
+    selector: '.eh-target-decline',
     style: {
       'background-color': 'red',
       'line-color': 'red',
       'target-arrow-color': 'red',
       'source-arrow-color': 'red'
+    }
+  },
+  {
+    selector: '.eh-preview, .eh-ghost-edge',
+    style: {
+      'line-color': 'orange',
+      'target-arrow-color': 'orange',
+      'source-arrow-color': 'orange'
     }
   },
   {
@@ -74,6 +75,13 @@ export const edgehandlesStyles = [
 
 export const edgehandlesOptions = {
   hoverover: (sourceNode, targetNode) => {
+    const refusedToAddEdge = sourceNode.edgesWith(targetNode).length
+
+    const targetNodeClass = refusedToAddEdge ? 'eh-target-decline' : 'eh-target-approve'
+    targetNode.addClass(targetNodeClass)
+  },
+  hoverout: (sourceNode, targetNode) => {
+    targetNode.removeClass('eh-target-approve eh-target-decline')
     console.log(targetNode)
   }
 }
