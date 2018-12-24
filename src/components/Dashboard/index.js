@@ -10,6 +10,7 @@ class Dashboard extends Component {
     if (element && element.constructor.name !== 'Core') {
       elementType = element.isNode() ? 'a node' : 'an edge'
     }
+    console.log(element)
 
     return (
       <div className='dashboard-container'>

@@ -19,13 +19,12 @@ export const JSONToCytoscape = (data) => {
       }
     }))
   ]
-  const edgeStylesConfig = data.edgeStylesConfig ? [
-    ...data.edgeStylesConfig.map(style => ({
+  const edgeStylesConfig = data.edgeStylesConfig
+    ? data.edgeStylesConfig.map(style => ({
       type: style.type,
       color: style.color,
       arrowShape: style.arrowShape
-    }))
-  ] : null
+    })) : []
 
   resultElements.forEach((element) => {
     if (element.data.type) {
@@ -54,15 +53,14 @@ export const cytoscapeToJSON = (data) => {
       source: edge.data.source,
       target: edge.data.target,
       type: edge.data.type
-    })),
-    edgeStylesConfig: window.edgeStylesConfig
+    }))
   }
 
   return result
 }
 
-export const generateEdgeStyles = (edgeTypes) => {
-  const config = window.edgeStylesConfig ? window.edgeStylesConfig : []
+export const generateEdgeStyles = (edgeTypes, edgeStylesConfig) => {
+  const config = [ ...edgeStylesConfig ]
   if (edgeTypes) {
     edgeTypes.forEach(type => {
       let isTypePresent = ~config.findIndex(el => {
@@ -79,20 +77,21 @@ export const generateEdgeStyles = (edgeTypes) => {
       }
     })
   }
-  window.edgeStylesConfig = config
 
-  const result = [
-    ...config.map(style => {
-      return {
-        selector: `edge[type="${style.type}"]`,
-        style: {
-          'line-color': style.color,
-          'target-arrow-shape': style.arrowShape,
-          'target-arrow-color': style.color
-        }
+  return config
+}
+
+export const configToEdgeStyles = (config) => {
+  const result = config.map(style => {
+    return {
+      selector: `edge[type="${style.type}"]`,
+      style: {
+        'line-color': style.color,
+        'target-arrow-shape': style.arrowShape,
+        'target-arrow-color': style.color
       }
-    })
-  ]
+    }
+  })
 
   return result
 }
