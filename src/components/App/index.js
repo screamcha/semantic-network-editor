@@ -19,6 +19,7 @@ class App extends React.PureComponent {
   state = {
     tappedElement: null,
     addedEdge: null,
+    targetNode: null,
     edgeStylesConfig: []
   }
 
@@ -38,7 +39,6 @@ class App extends React.PureComponent {
   drawGraph = (json) => {
     const parsedJSON = JSONToCytoscape(json)
     const elements = parsedJSON.elements
-    // window.edgeStylesConfig = parsedJSON.edgeStylesConfig
     const edgeStylesConfig = generateEdgeStyles(parsedJSON.edgeTypes, parsedJSON.edgeStylesConfig)
     this.setState({ edgeStylesConfig })
 
@@ -80,19 +80,35 @@ class App extends React.PureComponent {
   addEdge = (event, sourceNode, targetNode, addedEles) => {
     if (sourceNode.edgesWith(targetNode).length > 1) {
       this.cy.remove(addedEles)
+      targetNode.removeClass('eh-target-approve eh-target-decline')
     } else {
-      this.setState({ addedEdge: addedEles[0] })
+      this.setState({ addedEdge: addedEles[0], targetNode })
       this.modalRef.modal('show')
     }
-
-    targetNode.removeClass('eh-target-approve eh-target-decline')
   }
 
   handleModalSubmit = (type, isNew) => {
-    const { edgeStylesConfig, addedEdge } = this.state
+    const { addedEdge, targetNode, edgeStylesConfig } = this.state
 
     addedEdge.data('type', type)
+    if (isNew) {
+      const newTypeConfig = generateEdgeStyles([type])
+      const newTypeStyle = configToEdgeStyles(newTypeConfig)[0]
+
+      this.setState({ edgeStylesConfig: [...edgeStylesConfig, ...newTypeConfig] })
+      this.cy.style().selector(newTypeStyle.selector).style(newTypeStyle.style).update()
+    }
+
     this.modalRef.modal('hide')
+    targetNode.removeClass('eh-target-approve eh-target-decline')
+  }
+
+  handleModalDecline = () => {
+    const { addedEdge, targetNode } = this.state
+
+    this.cy.remove(addedEdge)
+    this.modalRef.modal('hide')
+    targetNode.removeClass('eh-target-approve eh-target-decline')
   }
 
   render () {
@@ -100,7 +116,12 @@ class App extends React.PureComponent {
 
     return (
       <React.Fragment>
-        <ArrowTypeModal edgeStyles={edgeStylesConfig} edge={addedEdge} onSubmit={this.handleModalSubmit} />
+        <ArrowTypeModal
+          edgeStyles={edgeStylesConfig}
+          edge={addedEdge}
+          onSubmit={this.handleModalSubmit}
+          onDecline={this.handleModalDecline}
+        />
         <FilePicker onReadEnd={this.drawGraph} />
         <button type='button' onClick={this.saveGraph}>Save results</button>
         <div className='main-panel'>

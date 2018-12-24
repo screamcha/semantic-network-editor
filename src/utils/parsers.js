@@ -59,7 +59,7 @@ export const cytoscapeToJSON = (data) => {
   return result
 }
 
-export const generateEdgeStyles = (edgeTypes, edgeStylesConfig) => {
+export const generateEdgeStyles = (edgeTypes, edgeStylesConfig = []) => {
   const config = [ ...edgeStylesConfig ]
   if (edgeTypes) {
     edgeTypes.forEach(type => {
