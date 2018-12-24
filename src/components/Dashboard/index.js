@@ -8,7 +8,6 @@ class Dashboard extends Component {
     let elementType
 
     if (element && element.constructor.name !== 'Core') {
-      console.log(element.isSimple())
       elementType = element.isNode() ? 'a node' : 'an edge'
     }
 

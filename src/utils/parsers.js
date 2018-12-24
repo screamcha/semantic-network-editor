@@ -1,5 +1,5 @@
 export const JSONToCytoscape = (data) => {
-  let edgeTypes = new Set();
+  const edgeTypes = new Set()
   const resultElements = [
     ...data.elements.map(elem => ({
       data: {
@@ -15,20 +15,21 @@ export const JSONToCytoscape = (data) => {
         id: conn.id,
         source: conn.source,
         target: conn.target,
-        type: conn.type,
+        type: conn.type
       }
     }))
-  ];
+  ]
   const edgeStylesConfig = data.edgeStylesConfig ? [
     ...data.edgeStylesConfig.map(style => ({
       type: style.type,
       color: style.color,
-      arrowShape: style.arrowShape,
+      arrowShape: style.arrowShape
     }))
-  ] : null;
+  ] : null
+
   resultElements.forEach((element) => {
     if (element.data.type) {
-      edgeTypes.add(element.data.type);
+      edgeTypes.add(element.data.type)
     }
   })
 
@@ -53,30 +54,32 @@ export const cytoscapeToJSON = (data) => {
       source: edge.data.source,
       target: edge.data.target,
       type: edge.data.type
-    }))
+    })),
+    edgeStylesConfig: window.edgeStylesConfig
   }
 
   return result
 }
 
 export const generateEdgeStyles = (edgeTypes) => {
-  const config = window.edgeStylesConfig ? window.edgeStylesConfig : [];
-  if(edgeTypes) {
+  const config = window.edgeStylesConfig ? window.edgeStylesConfig : []
+  if (edgeTypes) {
     edgeTypes.forEach(type => {
       let isTypePresent = ~config.findIndex(el => {
-        return el.type === type;
-      });
+        return el.type === type
+      })
       if (!isTypePresent) {
         config.push(
           {
-            "type": type,
-            "color": '#'+Math.floor(Math.random()*16777215).toString(16),
-            "arrowShape": "triangle"
+            type,
+            'color': `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+            'arrowShape': 'triangle'
           }
         )
       }
-    });
-}
+    })
+  }
+  window.edgeStylesConfig = config
 
   const result = [
     ...config.map(style => {
@@ -89,8 +92,7 @@ export const generateEdgeStyles = (edgeTypes) => {
         }
       }
     })
-  ];
+  ]
 
-
-  return result;
+  return result
 }

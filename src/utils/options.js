@@ -20,7 +20,6 @@ export const edgeStyle = {
   }
 }
 
-
 export const edgehandlesStyles = [
   {
     selector: '.eh-handle',
@@ -81,6 +80,5 @@ export const edgehandlesOptions = {
   },
   hoverout: (sourceNode, targetNode) => {
     targetNode.removeClass('eh-target-approve eh-target-decline')
-    console.log(targetNode)
   }
 }

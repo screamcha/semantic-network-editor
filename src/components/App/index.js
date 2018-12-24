@@ -54,6 +54,8 @@ class App extends React.PureComponent {
   }
 
   saveGraph = () => {
+    this.eh.hide()
+
     const data = this.cy.json()
     const json = cytoscapeToJSON(data)
 
