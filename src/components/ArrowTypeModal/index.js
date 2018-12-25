@@ -7,6 +7,12 @@ class ArrowTypeModal extends Component {
     newTypeName: ''
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.edgeStyles !== this.props.edgeStyles) {
+      this.setState({ type: this.props.edgeStyles[0].type })
+    }
+  }
+
   handleSelectChange = ({ target: select }) => {
     const showNewTypeInput = select.value === 'add new'
     this.setState({ type: select.value, addNewType: showNewTypeInput })
@@ -17,7 +23,7 @@ class ArrowTypeModal extends Component {
   }
 
   resetModal = () => {
-    this.setState({ addNewType: false, type: '', newTypeName: '' })
+    this.setState({ addNewType: false, type: this.props.edgeStyles[0].type, newTypeName: '' })
   }
 
   handleSubmit = () => {
