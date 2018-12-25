@@ -3,7 +3,8 @@ export const JSONToCytoscape = (data) => {
   const resultElements = [
     ...data.elements.map(elem => ({
       data: {
-        id: elem.id
+        id: elem.id,
+        title: elem.title
       },
       position: {
         x: elem.coordinates && +elem.coordinates.x,
@@ -43,6 +44,7 @@ export const cytoscapeToJSON = (data) => {
   const result = {
     elements: data.elements.nodes.map(node => ({
       id: node.data.id,
+      title: node.data.title,
       coordinates: {
         x: +node.position.x.toFixed(0),
         y: +node.position.y.toFixed(0)

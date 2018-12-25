@@ -4,7 +4,7 @@ export const nodeStyle = {
     'width': 'label',
     'height': 'label',
     'padding': '10px',
-    'label': 'data(id)',
+    'label': 'data(title)',
     'color': '#fff',
     'text-valign': 'center',
     'background-color': '#666'
