@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import NodeEditor from './NodeEditor'
 import EdgeEditor from './EdgeEditor'
 import ArrowLegend from '../ArrowLegend'
+import { ID } from '../../utils/idGenerator'
 
 import './styles.css'
 
@@ -36,7 +37,7 @@ class Dashboard extends Component {
     element.add(
       {
         data: {
-          id: Math.random(),
+          id: ID(),
           title: newNodeTitle
         },
         position: {
