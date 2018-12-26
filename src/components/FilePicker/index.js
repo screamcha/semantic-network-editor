@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { readJSON } from '../../utils/read'
 
+import './styles.css'
+
 export class FilePicker extends PureComponent {
   selectFile = ({ target: input }) => {
     const { onReadEnd } = this.props
@@ -8,10 +10,12 @@ export class FilePicker extends PureComponent {
   }
 
   render () {
+    const { className } = this.props
+
     return (
-      <div>
-        <label htmlFor='file-picker'>Select JSON</label>
-        <input type='file' id='file-picker' onChange={this.selectFile} />
+      <div className={`file-picker-container ${className}`}>
+        <label className='label' htmlFor='file-picker'>Загрузить JSON</label>
+        <input type='file' id='file-picker' className='file-picker' onChange={this.selectFile} />
       </div>
     )
   }
