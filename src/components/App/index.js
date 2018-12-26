@@ -70,7 +70,9 @@ class App extends React.PureComponent {
     const json = cytoscapeToJSON(data)
     json.edgeStylesConfig = this.state.edgeStylesConfig
 
-    const file = new File([JSON.stringify(json, null, ' ')], 'file1.json', { type: 'application/json;charset=utf-8' })
+    const now = new Date()
+    const fileName = `semantic-network-${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.json`
+    const file = new File([JSON.stringify(json, null, ' ')], fileName, { type: 'application/json;charset=utf-8' })
     saveAs(file)
   }
 
@@ -123,8 +125,12 @@ class App extends React.PureComponent {
           onSubmit={this.handleModalSubmit}
           onDecline={this.handleModalDecline}
         />
-        <FilePicker onReadEnd={this.drawGraph} />
-        <button type='button' onClick={this.saveGraph}>Save results</button>
+        <header className='header'>
+          <div className='btn-group'>
+            <FilePicker className='btn btn-primary' onReadEnd={this.drawGraph} />
+            <button type='button' className='btn btn-primary' onClick={this.saveGraph}>Сохранить результаты</button>
+          </div>
+        </header>
         <div className='main-panel'>
           <Graph onSave={this.saveGraph} getRootRef={this.getCyRootRef} />
           <Dashboard element={tappedElement} event={ev} edgeStyles={edgeStylesConfig} />
