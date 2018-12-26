@@ -46,16 +46,16 @@ class ArrowTypeModal extends Component {
     const isSubmitDisabled = !type || (addNewType && !newTypeName)
 
     return (
-      <div class='modal fade' id='arrow-type-modal' tabindex='-1'>
-        <div class='modal-dialog' role='document'>
-          <div class='modal-content'>
-            <div class='modal-header'>
-              <h5 class='modal-title' id='arrow-type-modal-label'>Выберите тип связи</h5>
-              <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+      <div className='modal fade' id='arrow-type-modal' tabIndex='-1'>
+        <div className='modal-dialog' role='document'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5 className='modal-title' id='arrow-type-modal-label'>Выберите тип связи</h5>
+              <button type='button' className='close' data-dismiss='modal' aria-label='Close'>
                 <span aria-hidden='true'>&times;</span>
               </button>
             </div>
-            <div class='modal-body'>
+            <div className='modal-body'>
               <div className='form-group'>
                 <label htmlFor='arrow-type-select'>Тип:</label>
                 <select name='arrow-type-select' id='arrow-type-select' className='form-control' value={type} onChange={this.handleSelectChange}>
@@ -69,9 +69,9 @@ class ArrowTypeModal extends Component {
                 </div>
               )}
             </div>
-            <div class='modal-footer'>
-              <button type='button' class='btn btn-secondary' data-dismiss='modal' onClick={this.handleDecline}>Отмена</button>
-              <button type='button' class='btn btn-primary' disabled={isSubmitDisabled} onClick={this.handleSubmit}>Сохранить</button>
+            <div className='modal-footer'>
+              <button type='button' className='btn btn-secondary' data-dismiss='modal' onClick={this.handleDecline}>Отмена</button>
+              <button type='button' className='btn btn-primary' disabled={isSubmitDisabled} onClick={this.handleSubmit}>Сохранить</button>
             </div>
           </div>
         </div>

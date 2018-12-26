@@ -75,11 +75,7 @@ class App extends React.PureComponent {
   }
 
   selectElement = (event) => {
-    window.ev = event
-    console.log(event)
-    this.setState({ tappedElement: event.target,
-      ev: event
-    })
+    this.setState({ tappedElement: event.target, ev: event })
   }
 
   addEdge = (event, sourceNode, targetNode, addedEles) => {
@@ -131,7 +127,7 @@ class App extends React.PureComponent {
         <button type='button' onClick={this.saveGraph}>Save results</button>
         <div className='main-panel'>
           <Graph onSave={this.saveGraph} getRootRef={this.getCyRootRef} />
-          <Dashboard element={tappedElement} event={ev}/>
+          <Dashboard element={tappedElement} event={ev} edgeStyles={edgeStylesConfig} />
         </div>
       </React.Fragment>
     )
