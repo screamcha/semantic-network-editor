@@ -8,46 +8,32 @@ import './styles.css'
 
 class Dashboard extends Component {
   state = {
-    element: this.props.element,
-    event: this.props.event,
     newNodeTitle: ''
   }
 
-  componentDidUpdate (prevProps) {
-    if (this.props.element !== prevProps.element) {
-      this.setState({
-        element: this.props.element,
-        event: this.props.event
-      })
-    }
+  resetTitleInput = () => {
+    this.setState({ newNodeTitle: '' })
   }
 
-  resetDashboard = () => {
-    this.setState({
-      event: null,
-      element: null,
-      newNodeTitle: ''
-    })
-  }
+  addNewNode = (event) => {
+    event.preventDefault()
 
-  addNewNode = () => {
-    const { newNodeTitle, element, event } = this.state
-    const clickPosition = event.position
+    const { coordinates, addNewNode } = this.props
+    const { newNodeTitle } = this.state
 
-    element.add(
-      {
-        data: {
-          id: ID(),
-          title: newNodeTitle
-        },
-        position: {
-          x: clickPosition.x,
-          y: clickPosition.y
-        }
+    const newNode = {
+      data: {
+        id: ID(),
+        title: newNodeTitle
+      },
+      position: {
+        x: coordinates.x,
+        y: coordinates.y
       }
-    )
+    }
 
-    this.resetDashboard()
+    this.resetTitleInput()
+    addNewNode(newNode)
   }
 
   handleInputChange = ({ target: input }) => {
@@ -55,34 +41,31 @@ class Dashboard extends Component {
   }
 
   render () {
-    const { edgeStyles } = this.props
-    const { element, event, newNodeTitle } = this.state
+    const { edgeStyles, element, coordinates, removeElement } = this.props
+    const { newNodeTitle } = this.state
     let elementType
-    let clickPosition
 
-    if (element && element.constructor.name !== 'Core') {
+    if (element) {
       elementType = element.isNode() ? 'node' : 'edge'
-    } else if (element && element.constructor.name === 'Core') {
-      clickPosition = event.position
     }
 
     return (
       <div className='dashboard-container d-flex flex-column justify-content-between'>
         <div className='editor'>
-          {!elementType && !clickPosition && <h4>Here you can find an element info</h4>}
-          {elementType === 'node' && <NodeEditor element={element} resetDashboard={this.resetDashboard} />}
-          {elementType === 'edge' && <EdgeEditor element={element} resetDashboard={this.resetDashboard} />}
-          {!elementType && clickPosition &&
-          <div>
+          {!element && !coordinates && <h4>Here you can find an element info</h4>}
+          {elementType === 'node' && <NodeEditor element={element} removeElement={removeElement} />}
+          {elementType === 'edge' && <EdgeEditor element={element} removeElement={removeElement} />}
+          {coordinates &&
+          <form onSubmit={this.addNewNode}>
             <div className='form-group'>
               <input className='form-control' type='text' placeholder='Введите название вершины' value={newNodeTitle} onChange={this.handleInputChange} />
             </div>
             <div className='row'>
               <div className='col-12 col-md-6'>
-                <button className='btn btn-success' type='submit' onClick={this.addNewNode}>Добавить </button>
+                <button className='btn btn-success' type='submit' disabled={!newNodeTitle}>Добавить</button>
               </div>
             </div>
-          </div>
+          </form>
           }
         </div>
         <ArrowLegend edgeStyles={edgeStyles} />

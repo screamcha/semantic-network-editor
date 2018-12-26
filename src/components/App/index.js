@@ -18,6 +18,7 @@ cytoscape.use(edgehandles)
 class App extends React.PureComponent {
   state = {
     tappedElement: null,
+    clickPosition: null,
     ev: null,
     addedEdge: null,
     targetNode: null,
@@ -33,7 +34,7 @@ class App extends React.PureComponent {
   }
 
   initCyEventHandlers = () => {
-    this.cy.on('tap', this.selectElement)
+    this.cy.on('tap', this.handleTap)
     this.cy.on('ehcomplete', this.addEdge)
   }
 
@@ -76,8 +77,13 @@ class App extends React.PureComponent {
     saveAs(file)
   }
 
-  selectElement = (event) => {
-    this.setState({ tappedElement: event.target, ev: event })
+  handleTap = (event) => {
+    if (event.target.constructor.name === 'Core') {
+      const clickPosition = event.position
+      this.setState({ clickPosition, tappedElement: null })
+    } else {
+      this.setState({ clickPosition: null, tappedElement: event.target })
+    }
   }
 
   addEdge = (event, sourceNode, targetNode, addedEles) => {
@@ -88,6 +94,18 @@ class App extends React.PureComponent {
       this.setState({ addedEdge: addedEles[0], targetNode })
       this.modalRef.modal('show')
     }
+  }
+
+  addNode = (node) => {
+    this.cy.add(node)
+    this.setState({ clickPosition: null })
+  }
+
+  removeTappedElement = () => {
+    const { tappedElement } = this.state
+
+    this.cy.remove(tappedElement)
+    this.setState({ tappedElement: null })
   }
 
   handleModalSubmit = (type, isNew) => {
@@ -115,7 +133,7 @@ class App extends React.PureComponent {
   }
 
   render () {
-    const { tappedElement, edgeStylesConfig, addedEdge, ev } = this.state
+    const { tappedElement, clickPosition, edgeStylesConfig, addedEdge } = this.state
 
     return (
       <React.Fragment>
@@ -133,7 +151,13 @@ class App extends React.PureComponent {
         </header>
         <div className='main-panel'>
           <Graph onSave={this.saveGraph} getRootRef={this.getCyRootRef} />
-          <Dashboard element={tappedElement} event={ev} edgeStyles={edgeStylesConfig} />
+          <Dashboard
+            element={tappedElement}
+            coordinates={clickPosition}
+            edgeStyles={edgeStylesConfig}
+            addNewNode={this.addNode}
+            removeElement={this.removeTappedElement}
+          />
         </div>
       </React.Fragment>
     )
