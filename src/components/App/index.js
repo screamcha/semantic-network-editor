@@ -18,6 +18,7 @@ cytoscape.use(edgehandles)
 class App extends React.PureComponent {
   state = {
     tappedElement: null,
+    ev: null,
     addedEdge: null,
     targetNode: null,
     edgeStylesConfig: []
@@ -73,8 +74,12 @@ class App extends React.PureComponent {
     saveAs(file)
   }
 
-  selectElement = ({ target: element }) => {
-    this.setState({ tappedElement: element })
+  selectElement = (event) => {
+    window.ev = event
+    console.log(event)
+    this.setState({ tappedElement: event.target,
+      ev: event
+    })
   }
 
   addEdge = (event, sourceNode, targetNode, addedEles) => {
@@ -112,7 +117,7 @@ class App extends React.PureComponent {
   }
 
   render () {
-    const { tappedElement, edgeStylesConfig, addedEdge } = this.state
+    const { tappedElement, edgeStylesConfig, addedEdge, ev } = this.state
 
     return (
       <React.Fragment>
@@ -126,7 +131,7 @@ class App extends React.PureComponent {
         <button type='button' onClick={this.saveGraph}>Save results</button>
         <div className='main-panel'>
           <Graph onSave={this.saveGraph} getRootRef={this.getCyRootRef} />
-          <Dashboard element={tappedElement} />
+          <Dashboard element={tappedElement} event={ev}/>
         </div>
       </React.Fragment>
     )
