@@ -11,7 +11,7 @@ class EdgeEditor extends Component {
     const targetTitle = element.cy().getElementById(targetId).attr('title')
     return (
       <div className='node-editor'>
-        <h4><span>{sourceTitle}</span>→<span class='badge badge-secondary'>{type}</span>→<span>{targetTitle}</span></h4>
+        <h4><span>{sourceTitle}</span>→<span className='badge badge-secondary'>{type}</span>→<span>{targetTitle}</span></h4>
         <div className='container'>
           <div className='row'>
             <div className='col-12 col-md-6'>

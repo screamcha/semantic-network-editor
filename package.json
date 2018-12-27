@@ -1,22 +1,23 @@
 {
-  "name": "mrrobot",
+  "name": "semantic-network-editor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
+    "build": "webpack --mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/screamcha/mrrobot.git"
+    "url": "git+https://github.com/screamcha/semantic-network-editor.git"
   },
   "author": "screamcha",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/screamcha/mrrobot/issues"
+    "url": "https://github.com/screamcha/semantic-network-editor/issues"
   },
-  "homepage": "https://github.com/screamcha/mrrobot#readme",
+  "homepage": "https://github.com/screamcha/semantic-network-editor#readme",
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "cytoscape": "^3.3.0",

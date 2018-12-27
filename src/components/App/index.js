@@ -11,6 +11,8 @@ import Graph from '../Graph'
 import { JSONToCytoscape, cytoscapeToJSON, generateEdgeStyles, configToEdgeStyles } from '../../utils/parsers'
 import { nodeStyle, edgeStyle, edgehandlesStyles, edgehandlesOptions } from '../../utils/options'
 
+import sampleGraph from '../../sample.json'
+
 import './styles.css'
 
 cytoscape.use(edgehandles)
@@ -27,15 +29,23 @@ class App extends React.PureComponent {
 
   componentDidMount () {
     this.modalRef = $('#arrow-type-modal')
+    this.drawGraph(sampleGraph)
   }
 
   getCyRootRef = (element) => {
     this.cyRootRef = element
   }
 
-  initCyEventHandlers = () => {
+  initEventHandlers = () => {
     this.cy.on('tap', this.handleTap)
     this.cy.on('ehcomplete', this.addEdge)
+
+    this.modalRef.on('hidden.bs.modal', () => {
+      const { addedEdge } = this.state
+      if (addedEdge) {
+        this.cy.remove(addedEdge)
+      }
+    })
   }
 
   drawGraph = (json) => {
@@ -61,7 +71,7 @@ class App extends React.PureComponent {
     })
 
     this.eh = this.cy.edgehandles(edgehandlesOptions)
-    this.initCyEventHandlers()
+    this.initEventHandlers()
   }
 
   saveGraph = () => {

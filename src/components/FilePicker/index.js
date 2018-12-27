@@ -14,7 +14,7 @@ export class FilePicker extends PureComponent {
 
     return (
       <label className={`file-picker-label ${className}`} htmlFor='file-picker'>Загрузить JSON
-          <input type='file' id='file-picker' className='file-picker' onChange={this.selectFile} />
+        <input type='file' id='file-picker' className='file-picker' onChange={this.selectFile} />
       </label>
     )
   }

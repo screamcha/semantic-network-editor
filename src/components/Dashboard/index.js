@@ -52,7 +52,7 @@ class Dashboard extends Component {
     return (
       <div className='dashboard-container d-flex flex-column justify-content-between'>
         <div className='editor'>
-          {!element && !coordinates && <h4>Here you can find an element info</h4>}
+          {!element && !coordinates && <h4>Здесь будет отображена информация о выбранном элементе</h4>}
           {elementType === 'node' && <NodeEditor element={element} removeElement={removeElement} />}
           {elementType === 'edge' && <EdgeEditor element={element} removeElement={removeElement} />}
           {coordinates &&
