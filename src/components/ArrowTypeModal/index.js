@@ -59,7 +59,7 @@ class ArrowTypeModal extends Component {
               <div className='form-group'>
                 <label htmlFor='arrow-type-select'>Тип:</label>
                 <select name='arrow-type-select' id='arrow-type-select' className='form-control' value={type} onChange={this.handleSelectChange}>
-                  {edgeStyles.map(cnf => <option value={cnf.type}>{cnf.type}</option>)}
+                  {edgeStyles.map(cnf => <option key={cnf.type} value={cnf.type}>{cnf.type}</option>)}
                   <option value='add new'>Добавить новый</option>
                 </select>
               </div>
