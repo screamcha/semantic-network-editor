@@ -40,12 +40,12 @@ class App extends React.PureComponent {
     this.cy.on('tap', this.handleTap)
     this.cy.on('ehcomplete', this.addEdge)
 
-    this.modalRef.on('hidden.bs.modal', () => {
-      const { addedEdge } = this.state
-      if (addedEdge) {
-        this.cy.remove(addedEdge)
-      }
-    })
+    // this.modalRef.on('hidden.bs.modal', () => {
+    //   const { addedEdge } = this.state
+    //   if (addedEdge) {
+    //     this.cy.remove(addedEdge)
+    //   }
+    // })
   }
 
   drawGraph = (json) => {
