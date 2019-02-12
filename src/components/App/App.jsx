@@ -21,7 +21,7 @@ import React from "react";
 
 // import sampleGraph from "../../sample.json";
 
-import "./App.css";
+import "./App.scss";
 
 // cytoscape.use(edgehandles);
 
