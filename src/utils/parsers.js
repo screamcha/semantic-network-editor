@@ -1,99 +1,90 @@
-export const JSONToCytoscape = (data) => {
-  const edgeTypes = new Set()
-  const resultElements = [
-    ...data.elements.map(elem => ({
+export const JSONToCytoscape = data => {
+  let edgeTypes = new Set();
+  const elements = [
+    ...data.nodes.map(elem => ({
+      group: "nodes",
       data: {
         id: elem.id,
         title: elem.title
       },
       position: {
-        x: elem.coordinates && +elem.coordinates.x,
-        y: elem.coordinates && +elem.coordinates.y
+        x: elem.coordinates && Number(elem.coordinates.x),
+        y: elem.coordinates && Number(elem.coordinates.y)
       }
     })),
-    ...data.connections.map(conn => ({
-      data: {
-        id: conn.id,
-        source: conn.source,
-        target: conn.target,
-        type: conn.type
-      }
-    }))
-  ]
-  const edgeStylesConfig = data.edgeStylesConfig
-    ? data.edgeStylesConfig.map(style => ({
-      type: style.type,
-      color: style.color,
-      arrowShape: style.arrowShape
-    })) : []
+    ...data.connections.map(conn => {
+      edgeTypes.add(conn.type);
+      return {
+        group: "edges",
+        data: {
+          id: conn.id,
+          source: conn.source,
+          target: conn.target,
+          type: conn.type
+        }
+      };
+    })
+  ];
+  edgeTypes = Array.from(edgeTypes);
 
-  resultElements.forEach((element) => {
-    if (element.data.type) {
-      edgeTypes.add(element.data.type)
-    }
-  })
+  const edgeStyles = data.styles.connections;
+
+  const edgeTypesWithStyles = edgeStyles.map(style => style.type);
+  const edgeTypesWithoutStyles = edgeTypes.filter(
+    type => !edgeTypesWithStyles.includes(type)
+  );
+
+  edgeTypesWithoutStyles.forEach(type => {
+    const geheratedStyles = generateEdgeStyles(type);
+    edgeStyles.push(geheratedStyles);
+  });
+
+  const styles = getCytpscapeEdgeStyles(edgeStyles);
 
   return {
-    elements: resultElements,
-    edgeStylesConfig,
-    edgeTypes: [...edgeTypes]
-  }
-}
+    elements,
+    styles
+  };
+};
 
-export const cytoscapeToJSON = (data) => {
-  const result = {
-    elements: data.elements.nodes.map(node => ({
-      id: node.data.id,
-      title: node.data.title,
-      coordinates: {
-        x: +node.position.x.toFixed(0),
-        y: +node.position.y.toFixed(0)
-      }
-    })),
-    connections: data.elements.edges.map(edge => ({
-      id: edge.data.id,
-      source: edge.data.source,
-      target: edge.data.target,
-      type: edge.data.type
-    }))
-  }
+// export const cytoscapeToJSON = data => {
+//   const result = {
+//     elements: data.elements.nodes.map(node => ({
+//       id: node.data.id,
+//       title: node.data.title,
+//       coordinates: {
+//         x: +node.position.x.toFixed(0),
+//         y: +node.position.y.toFixed(0)
+//       }
+//     })),
+//     connections: data.elements.edges.map(edge => ({
+//       id: edge.data.id,
+//       source: edge.data.source,
+//       target: edge.data.target,
+//       type: edge.data.type
+//     }))
+//   };
 
-  return result
-}
+//   return result;
+// };
 
-export const generateEdgeStyles = (edgeTypes, edgeStylesConfig = []) => {
-  const config = [ ...edgeStylesConfig ]
-  if (edgeTypes) {
-    edgeTypes.forEach(type => {
-      let isTypePresent = ~config.findIndex(el => {
-        return el.type === type
-      })
-      if (!isTypePresent) {
-        config.push(
-          {
-            type,
-            'color': `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-            'arrowShape': 'triangle'
-          }
-        )
-      }
-    })
-  }
+export const generateEdgeStyles = type => ({
+  type,
+  color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+  arrowShape: "triangle"
+});
 
-  return config
-}
-
-export const configToEdgeStyles = (config) => {
+export const getCytpscapeEdgeStyles = config => {
   const result = config.map(style => {
     return {
       selector: `edge[type="${style.type}"]`,
       style: {
-        'line-color': style.color,
-        'target-arrow-shape': style.arrowShape,
-        'target-arrow-color': style.color
+        "line-color": style.color,
+        "target-arrow-shape": style.arrowShape,
+        "target-arrow-color": style.color
       }
-    }
-  })
+    };
+  });
 
-  return result
-}
+  return result;
+};

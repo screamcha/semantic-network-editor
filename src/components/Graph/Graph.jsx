@@ -1,13 +1,11 @@
 import React from "react";
 
-import "./Graph.css";
+import "./Graph.scss";
 
 const Graph = props => {
-  const { getRootRef } = props;
-
   return (
     <section className="graph-container">
-      <div id="cy" ref={getRootRef} />
+      <div id="cy" />
     </section>
   );
 };

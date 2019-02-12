@@ -25,7 +25,8 @@ module.exports = {
     ]
   },
   resolve: {
-    modules: ["node_modules", path.resolve(__dirname, "src")]
+    modules: ["node_modules", path.resolve(__dirname, "src")],
+    extensions: [".js", ".jsx"]
   },
   devtool: "source-map",
   plugins: [
