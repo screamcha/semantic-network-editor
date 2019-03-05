@@ -1,7 +1,9 @@
 import React from "react";
+import EditorButtonPanel from "../EditorButtonPanel/EditorButtonPanel";
+import Graph from "components/Graph/Graph";
 import Cytoscape from "services/Cytoscape";
-import Graph from "../Graph/Graph";
 import { getGraphs } from "services/apollo";
+import { saveMethods } from "constants/index";
 
 // import sampleGraph from "../../sample.json";
 
@@ -11,6 +13,8 @@ import "./GraphPage.scss";
 let cytoscape;
 
 const App = props => {
+  const [graphId, setGraphId] = React.useState(null);
+
   const drawGraph = json => {
     cytoscape.createGraphFromJSON(json);
 
@@ -24,6 +28,7 @@ const App = props => {
       cytoscape = new Cytoscape(document.getElementById("cy"));
 
       getGraphs().then(res => {
+        setGraphId(res[0].id);
         drawGraph(res[0]);
       });
     }
@@ -41,20 +46,10 @@ const App = props => {
   //   // })
   // };
 
-  // saveGraph = () => {
-  //   this.eh.hide();
-
-  //   const data = this.cy.json();
-  //   const json = cytoscapeToJSON(data);
-  //   json.edgeStylesConfig = this.state.edgeStylesConfig;
-
-  //   const now = new Date();
-  //   const fileName = `semantic-network-${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.json`;
-  //   const file = new File([JSON.stringify(json, null, " ")], fileName, {
-  //     type: "application/json;charset=utf-8"
-  //   });
-  //   saveAs(file);
-  // };
+  const saveGraph = () => {
+    //   this.eh.hide();
+    cytoscape.save(saveMethods.SERVER, { graphId });
+  };
 
   // handleTap = event => {
   //   if (event.target.constructor.name === "Core") {
@@ -125,22 +120,8 @@ const App = props => {
     //   onSubmit={this.handleModalSubmit}
     //   onDecline={this.handleModalDecline}
     // />
-    // <header className="header">
-    //   <div className="btn-group">
-    //     <FilePicker
-    //       className="btn btn-primary"
-    //       onReadEnd={this.drawGraph}
-    //     />
-    //     <button
-    //       type="button"
-    //       className="btn btn-primary"
-    //       onClick={this.saveGraph}
-    //     >
-    //       Сохранить результаты
-    //     </button>
-    //   </div>
-    // </header>
     <div className="graph-page-container">
+      <EditorButtonPanel onSave={saveGraph} />
       <Graph />
       {/* <Dashboard
             element={tappedElement}

@@ -39,7 +39,7 @@ export const JSONToCytoscape = data => {
     edgeStyles.push(geheratedStyles);
   });
 
-  const styles = getCytpscapeEdgeStyles(edgeStyles);
+  const styles = getCytoscapeEdgeStyles(edgeStyles);
 
   return {
     elements,
@@ -47,26 +47,35 @@ export const JSONToCytoscape = data => {
   };
 };
 
-// export const cytoscapeToJSON = data => {
-//   const result = {
-//     elements: data.elements.nodes.map(node => ({
-//       id: node.data.id,
-//       title: node.data.title,
-//       coordinates: {
-//         x: +node.position.x.toFixed(0),
-//         y: +node.position.y.toFixed(0)
-//       }
-//     })),
-//     connections: data.elements.edges.map(edge => ({
-//       id: edge.data.id,
-//       source: edge.data.source,
-//       target: edge.data.target,
-//       type: edge.data.type
-//     }))
-//   };
+export const cytoscapeToJSON = data => {
+  const result = {
+    nodes: data.elements.nodes.map(node => ({
+      id: node.data.id,
+      title: node.data.title,
+      coordinates: {
+        x: node.position.x,
+        y: node.position.y
+      }
+    })),
+    connections: data.elements.edges.map(edge => ({
+      id: edge.data.id,
+      source: edge.data.source,
+      target: edge.data.target,
+      type: edge.data.type
+    })),
+    styles: {}
+  };
 
-//   return result;
-// };
+  const edgeStyles = data.style.filter(({ selector }) => /type/.test(selector));
+  const resultEdgeStyles = edgeStyles.map(({ selector, style }) => ({
+    type: selector.match(/"[A-Za-z]+"/)[0].replace(/"/g, ""),
+    color: style["line-color"]
+  }));
+
+  result.styles.connections = resultEdgeStyles;
+
+  return result;
+};
 
 export const generateEdgeStyles = type => ({
   type,
@@ -74,7 +83,7 @@ export const generateEdgeStyles = type => ({
   arrowShape: "triangle"
 });
 
-export const getCytpscapeEdgeStyles = config => {
+export const getCytoscapeEdgeStyles = config => {
   const result = config.map(style => {
     return {
       selector: `edge[type="${style.type}"]`,
