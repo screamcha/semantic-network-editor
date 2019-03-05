@@ -28,7 +28,7 @@ module.exports = {
     modules: ["node_modules", path.resolve(__dirname, "src")],
     extensions: [".js", ".jsx"]
   },
-  devtool: "source-map",
+  devtool: "inline-source-map",
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html"

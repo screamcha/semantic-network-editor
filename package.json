@@ -20,11 +20,15 @@
   "homepage": "https://github.com/screamcha/semantic-network-editor#readme",
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "apollo-boost": "^0.3.1",
+    "apollo-client": "^2.5.1",
     "cytoscape": "^3.3.0",
     "cytoscape-edgehandles": "^3.5.0",
     "file-saver": "^2.0.0",
+    "graphql": "^14.1.1",
     "normalize.css": "^8.0.1",
     "react": "^16.8.1",
+    "react-apollo": "^2.5.1",
     "react-dom": "^16.8.1"
   },
   "devDependencies": {

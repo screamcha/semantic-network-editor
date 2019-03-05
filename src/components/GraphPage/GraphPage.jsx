@@ -1,39 +1,33 @@
 import React from "react";
 import Cytoscape from "services/Cytoscape";
-// import edgehandles from "cytoscape-edgehandles";
-// import { saveAs } from "file-saver";
-// import ArrowTypeModal from "../ArrowTypeModal/ArrowTypeModal";
-// import FilePicker from "../FilePicker/FilePicker";
-// import Dashboard from "../Dashboard/Dashboard";
-import Graph from "../Graph/Graph.jsx";
-// import {
-//   nodeStyle,
-//   edgeStyle,
-//   edgehandlesStyles,
-//   edgehandlesOptions
-// } from "../../utils/options";
+import Graph from "../Graph/Graph";
+import { getGraphs } from "services/apollo";
 
-import sampleGraph from "../../sample.json";
+// import sampleGraph from "../../sample.json";
 
 import "./GraphPage.scss";
 
 // cytoscape.use(edgehandles);
+let cytoscape;
 
-class App extends React.PureComponent {
-  state = {
-    // tappedElement: null,
-    // clickPosition: null,
-    // ev: null,
-    // addedEdge: null,
-    // targetNode: null,
-    // edgeStylesConfig: []
+const App = props => {
+  const drawGraph = json => {
+    cytoscape.createGraphFromJSON(json);
+
+    // this.eh = this.cy.edgehandles(edgehandlesOptions);
+    // this.initEventHandlers();
   };
 
-  componentDidMount() {
+  React.useEffect(() => {
     // this.modalRef = $("#arrow-type-modal");
-    this.cytoscape = new Cytoscape(document.getElementById("cy"));
-    this.drawGraph(sampleGraph);
-  }
+    if (!cytoscape) {
+      cytoscape = new Cytoscape(document.getElementById("cy"));
+
+      getGraphs().then(res => {
+        drawGraph(res[0]);
+      });
+    }
+  });
 
   // initEventHandlers = () => {
   //   this.cy.on("tap", this.handleTap);
@@ -46,13 +40,6 @@ class App extends React.PureComponent {
   //   //   }
   //   // })
   // };
-
-  drawGraph = json => {
-    this.cytoscape.createGraphFromJSON(json);
-
-    // this.eh = this.cy.edgehandles(edgehandlesOptions);
-    // this.initEventHandlers();
-  };
 
   // saveGraph = () => {
   //   this.eh.hide();
@@ -130,43 +117,41 @@ class App extends React.PureComponent {
   //   targetNode.removeClass("eh-target-approve eh-target-decline");
   // };
 
-  render() {
-    return (
-      // <React.Fragment>
-      // <ArrowTypeModal
-      //   edgeStyles={edgeStylesConfig}
-      //   edge={addedEdge}
-      //   onSubmit={this.handleModalSubmit}
-      //   onDecline={this.handleModalDecline}
-      // />
-      // <header className="header">
-      //   <div className="btn-group">
-      //     <FilePicker
-      //       className="btn btn-primary"
-      //       onReadEnd={this.drawGraph}
-      //     />
-      //     <button
-      //       type="button"
-      //       className="btn btn-primary"
-      //       onClick={this.saveGraph}
-      //     >
-      //       Сохранить результаты
-      //     </button>
-      //   </div>
-      // </header>
-      <div className="graph-page-container">
-        <Graph />
-        {/* <Dashboard
+  return (
+    // <React.Fragment>
+    // <ArrowTypeModal
+    //   edgeStyles={edgeStylesConfig}
+    //   edge={addedEdge}
+    //   onSubmit={this.handleModalSubmit}
+    //   onDecline={this.handleModalDecline}
+    // />
+    // <header className="header">
+    //   <div className="btn-group">
+    //     <FilePicker
+    //       className="btn btn-primary"
+    //       onReadEnd={this.drawGraph}
+    //     />
+    //     <button
+    //       type="button"
+    //       className="btn btn-primary"
+    //       onClick={this.saveGraph}
+    //     >
+    //       Сохранить результаты
+    //     </button>
+    //   </div>
+    // </header>
+    <div className="graph-page-container">
+      <Graph />
+      {/* <Dashboard
             element={tappedElement}
             coordinates={clickPosition}
             edgeStyles={edgeStylesConfig}
             addNewNode={this.addNode}
             removeElement={this.removeTappedElement}
           /> */}
-      </div>
-      // </React.Fragment>
-    );
-  }
-}
+    </div>
+    // </React.Fragment>
+  );
+};
 
 export default App;
