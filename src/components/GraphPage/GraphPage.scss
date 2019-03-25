@@ -1,3 +1,10 @@
-.graph-page-container {
-  height: 800px;
+.graph-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 70px);
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+  }
 }

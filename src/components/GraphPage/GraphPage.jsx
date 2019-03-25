@@ -1,6 +1,7 @@
 import React from "react";
 import EditorButtonPanel from "../EditorButtonPanel/EditorButtonPanel";
 import Graph from "components/Graph/Graph";
+import Dashboard from "components/Dashboard/Dashboard";
 import Cytoscape from "services/Cytoscape";
 import { getGraphs } from "services/apollo";
 import { saveMethods } from "constants/index";
@@ -12,8 +13,10 @@ import "./GraphPage.scss";
 // cytoscape.use(edgehandles);
 let cytoscape;
 
-const App = props => {
+const GraphPage = props => {
   const [graphId, setGraphId] = React.useState(null);
+  // const [clickPosition, setClickPosition] = React.useState();
+  const [selectedElement, setSelectedElement] = React.useState();
 
   const drawGraph = json => {
     cytoscape.createGraphFromJSON(json);
@@ -26,6 +29,7 @@ const App = props => {
     // this.modalRef = $("#arrow-type-modal");
     if (!cytoscape) {
       cytoscape = new Cytoscape(document.getElementById("cy"));
+      initEventHandlers();
 
       getGraphs().then(res => {
         setGraphId(res[0].id);
@@ -34,31 +38,27 @@ const App = props => {
     }
   });
 
-  // initEventHandlers = () => {
-  //   this.cy.on("tap", this.handleTap);
-  //   this.cy.on("ehcomplete", this.addEdge);
+  const initEventHandlers = () => {
+    cytoscape.on("select", handleTap);
+    //   this.cy.on("ehcomplete", this.addEdge);
 
-  //   // this.modalRef.on('hidden.bs.modal', () => {
-  //   //   const { addedEdge } = this.state
-  //   //   if (addedEdge) {
-  //   //     this.cy.remove(addedEdge)
-  //   //   }
-  //   // })
-  // };
+    //   // this.modalRef.on('hidden.bs.modal', () => {
+    //   //   const { addedEdge } = this.state
+    //   //   if (addedEdge) {
+    //   //     this.cy.remove(addedEdge)
+    //   //   }
+    //   // })
+  };
 
   const saveGraph = () => {
     //   this.eh.hide();
     cytoscape.save(saveMethods.SERVER, { graphId });
   };
 
-  // handleTap = event => {
-  //   if (event.target.constructor.name === "Core") {
-  //     const clickPosition = event.position;
-  //     this.setState({ clickPosition, tappedElement: null });
-  //   } else {
-  //     this.setState({ clickPosition: null, tappedElement: event.target });
-  //   }
-  // };
+  const handleTap = ({ target }) => {
+    console.log("hi");
+    setSelectedElement(target);
+  };
 
   // addEdge = (event, sourceNode, targetNode, addedEles) => {
   //   if (sourceNode.edgesWith(targetNode).length > 1) {
@@ -75,11 +75,11 @@ const App = props => {
   //   this.setState({ clickPosition: null });
   // };
 
-  // removeTappedElement = () => {
-  //   const { tappedElement } = this.state;
+  // removeselectedElement = () => {
+  //   const { selectedElement } = this.state;
 
-  //   this.cy.remove(tappedElement);
-  //   this.setState({ tappedElement: null });
+  //   this.cy.remove(selectedElement);
+  //   this.setState({ selectedElement: null });
   // };
 
   // handleModalSubmit = (type, isNew) => {
@@ -120,19 +120,20 @@ const App = props => {
     //   onSubmit={this.handleModalSubmit}
     //   onDecline={this.handleModalDecline}
     // />
-    <div className="graph-page-container">
+    <div className="graph-page">
       <EditorButtonPanel onSave={saveGraph} />
-      <Graph />
-      {/* <Dashboard
-            element={tappedElement}
-            coordinates={clickPosition}
-            edgeStyles={edgeStylesConfig}
-            addNewNode={this.addNode}
-            removeElement={this.removeTappedElement}
-          /> */}
+      <div className="graph-page__content">
+        <Graph />
+        <Dashboard
+          element={selectedElement}
+          // edgeStyles={edgeStylesConfig}
+          // addNewNode={this.addNode}
+          // removeElement={this.removeselectedElement}
+        />
+      </div>
     </div>
     // </React.Fragment>
   );
 };
 
-export default App;
+export default GraphPage;

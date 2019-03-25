@@ -1,95 +1,80 @@
-import React, { Component } from "react";
-import NodeEditor from "./NodeEditor/NodeEditor";
-import EdgeEditor from "./EdgeEditor/EdgeEditor";
-import ArrowLegend from "../ArrowLegend/ArrowLegend";
-import { ID } from "../../utils/idGenerator";
+import React from "react";
 
-import "./Dashboard.css";
+import "./Dashboard.scss";
 
-class Dashboard extends Component {
-  state = {
-    newNodeTitle: ""
-  };
+const Dashboard = props => {
+  // state = {
+  //   newNodeTitle: ""
+  // };
 
-  resetTitleInput = () => {
-    this.setState({ newNodeTitle: "" });
-  };
+  // resetTitleInput = () => {
+  //   this.setState({ newNodeTitle: "" });
+  // };
 
-  addNewNode = event => {
-    event.preventDefault();
+  // addNewNode = event => {
+  //   event.preventDefault();
 
-    const { coordinates, addNewNode } = this.props;
-    const { newNodeTitle } = this.state;
+  //   const { coordinates, addNewNode } = this.props;
+  //   const { newNodeTitle } = this.state;
 
-    const newNode = {
-      data: {
-        id: ID(),
-        title: newNodeTitle
-      },
-      position: {
-        x: coordinates.x,
-        y: coordinates.y
-      }
-    };
+  //   const newNode = {
+  //     data: {
+  //       id: ID(),
+  //       title: newNodeTitle
+  //     },
+  //     position: {
+  //       x: coordinates.x,
+  //       y: coordinates.y
+  //     }
+  //   };
 
-    this.resetTitleInput();
-    addNewNode(newNode);
-  };
+  //   this.resetTitleInput();
+  //   addNewNode(newNode);
+  // };
 
-  handleInputChange = ({ target: input }) => {
-    this.setState({ newNodeTitle: input.value });
-  };
+  // handleInputChange = ({ target: input }) => {
+  //   this.setState({ newNodeTitle: input.value });
+  // };
 
-  render() {
-    const { edgeStyles, element, coordinates, removeElement } = this.props;
-    const { newNodeTitle } = this.state;
-    let elementType;
+  const { edgeStyles, element, removeElement } = props;
 
-    if (element) {
-      elementType = element.isNode() ? "node" : "edge";
-    }
-
-    return (
-      <div className="dashboard-container d-flex flex-column justify-content-between">
-        <div className="editor">
-          {!element && !coordinates && (
-            <h4>Здесь будет отображена информация о выбранном элементе</h4>
-          )}
-          {elementType === "node" && (
-            <NodeEditor element={element} removeElement={removeElement} />
-          )}
-          {elementType === "edge" && (
-            <EdgeEditor element={element} removeElement={removeElement} />
-          )}
-          {coordinates && (
-            <form onSubmit={this.addNewNode}>
-              <div className="form-group">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Введите название вершины"
-                  value={newNodeTitle}
-                  onChange={this.handleInputChange}
-                />
+  return (
+    <div className="dashboard">
+      <div className="dashboard__editor">
+        {!element && <h4>Here you can see selected element</h4>}
+        {element && (
+          <React.Fragment>
+            {element.isNode() && <h4>Node</h4>}
+            {element.isEdge() && <h4>Edge</h4>}
+          </React.Fragment>
+        )}
+        {/* {coordinates && (
+          <form onSubmit={this.addNewNode}>
+            <div className="form-group">
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Введите название вершины"
+                value={newNodeTitle}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="row">
+              <div className="col-12 col-md-6">
+                <button
+                  className="btn btn-success"
+                  type="submit"
+                  disabled={!newNodeTitle}
+                >
+                  Добавить
+                </button>
               </div>
-              <div className="row">
-                <div className="col-12 col-md-6">
-                  <button
-                    className="btn btn-success"
-                    type="submit"
-                    disabled={!newNodeTitle}
-                  >
-                    Добавить
-                  </button>
-                </div>
-              </div>
-            </form>
-          )}
-        </div>
-        <ArrowLegend edgeStyles={edgeStyles} />
+            </div>
+          </form>
+        )} */}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Dashboard;

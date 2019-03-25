@@ -12,6 +12,10 @@ class Cytoscape {
     });
   }
 
+  on(event, handler) {
+    this.cy.on(event, handler);
+  }
+
   createGraphFromJSON(json) {
     const { elements, styles } = JSONToCytoscape(json);
     const _styles = [...styles, ...constStyles];
