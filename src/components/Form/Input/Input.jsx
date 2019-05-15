@@ -43,7 +43,7 @@ const Input = ({
     setError("");
 
     for (let validator of validators) {
-      const _error = validator(error);
+      const _error = validator(value);
       if (_error) {
         setError(_error);
         break;
@@ -68,7 +68,7 @@ const Input = ({
         type={type}
         value={value}
       />
-      {showError && error && <div className="input__error">{error}</div>}
+      {showError && !!error && <div className="input__error">{error}</div>}
     </div>
   );
 };
