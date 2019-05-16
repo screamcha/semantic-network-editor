@@ -2,16 +2,17 @@ import React from "react";
 
 const Input = ({
   className = "",
-  value = "",
-  placeholder,
+  error = "",
+  label,
   name,
   onChange,
+  onError,
   onFocus,
+  placeholder,
   type = "text",
-  label,
-  validators = []
+  validators = [],
+  value = "",
 }) => {
-  const [error, setError] = React.useState("");
   const [dirty, setDirty] = React.useState(false);
   const [touched, setTouched] = React.useState(false);
   const [showError, setShowError] = React.useState(false);
@@ -19,15 +20,20 @@ const Input = ({
   const handleBlur = e => {
     if (!showError && validators.length) {
       setShowError(true);
+
+      validate(value);
     }
   };
   const handleChange = event => {
     const { value: inputValue } = event.currentTarget;
+
     if (!dirty) {
       setDirty(true);
     }
 
-    validate(inputValue);
+    if (showError) {
+      validate(inputValue);
+    }
 
     onChange && onChange(event);
   };
@@ -40,15 +46,16 @@ const Input = ({
   };
 
   const validate = value => {
-    setError("");
+    let error = "";
 
-    for (let validator of validators) {
-      const _error = validator(value);
-      if (_error) {
-        setError(_error);
+    for (const validator of validators) {
+      error = validator(value);
+      if (error) {
         break;
       }
     }
+
+    onError({ name, value: error });
   };
 
   return (

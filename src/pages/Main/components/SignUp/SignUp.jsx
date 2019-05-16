@@ -5,11 +5,10 @@ import Input from "components/Form/Input/Input";
 import Button from "components/Button";
 
 import { createUser } from "services/apollo/user";
-import { required, minLength } from "utils/validators";
+import { required, minLength, confirmation } from "utils/validators";
 
 const SignUp = props => {
   const handleSubmit = async values => {
-    console.log(values);
     const result = await createUser(values);
     console.log(result);
   };
@@ -23,6 +22,12 @@ const SignUp = props => {
           name="password"
           type="password"
           validators={[required, minLength(6)]}
+        />
+        <Input
+          label="Confirm password"
+          name="confirm-password"
+          type="password"
+          validators={[required, minLength(6), confirmation("password")]}
         />
         <Button type="submit">Sign up</Button>
       </Form>
