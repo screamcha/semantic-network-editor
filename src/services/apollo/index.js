@@ -1,6 +1,6 @@
 import client from "./client";
-import { GET_GRAPHS } from "constants/graphql/queries";
-import { UPDATE_GRAPH } from "constants/graphql/mutations";
+import { GET_GRAPHS } from "constants/graphql/graph/queries";
+import { UPDATE_GRAPH } from "constants/graphql/graph/mutations";
 
 export const getGraphs = async () => {
   try {
