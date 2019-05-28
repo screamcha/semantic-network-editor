@@ -6,4 +6,21 @@
   display: flex;
   height: 60px;
   width: 100%;
+
+  .header__content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .header__logo {
+    font-weight: 700;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+  }
+
+  .header__buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
