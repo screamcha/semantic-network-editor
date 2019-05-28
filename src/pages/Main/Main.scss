@@ -1,0 +1,15 @@
+@import "~assets/styles/variables";
+
+.main-page {
+  .main-page__content {
+    background: url("../../assets/images/main_background.jpg");
+    background-attachment: fixed;
+    height: 1500px;
+  }
+}
+
+.hero-section {
+  border-bottom: 50px solid $bg-gray;
+  height: 792px;
+  width: 100%;
+}

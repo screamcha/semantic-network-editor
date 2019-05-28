@@ -8,21 +8,29 @@ module.exports = {
     rules: [
       {
         test: /\.scss$/,
-        use: ["style-loader", "css-loader", "sass-loader"]
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.jsx?$/,
         loader: "babel-loader",
         options: {
           presets: ["@babel/env", "@babel/react"],
-          plugins: ["transform-class-properties"]
-        }
+          plugins: ["transform-class-properties"],
+        },
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        use: [
+          {
+            loader: "file-loader",
+          }
+        ],
       }
-    ]
+    ],
   },
   resolve: {
     modules: ["node_modules", path.resolve(__dirname, "src")],
@@ -34,16 +42,16 @@ module.exports = {
       hooks: path.resolve(__dirname, "src/hooks"),
       pages: path.resolve(__dirname, "src/pages"),
       services: path.resolve(__dirname, "src/services"),
-      utils: path.resolve(__dirname, "src/utils")
-    }
+      utils: path.resolve(__dirname, "src/utils"),
+    },
   },
   devtool: "inline-source-map",
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./public/index.html"
+      template: "./public/index.html",
     })
   ],
   devServer: {
-    contentBase: path.join(__dirname, "dist")
-  }
+    contentBase: path.join(__dirname, "dist"),
+  },
 };
