@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import SignUp from './components/SignUp/SignUp';
+import SignUp from "./components/SignUp/SignUp";
 
-const Main = (props) => {
+const Main = props => {
   return (
-    <section className='main'>
+    <section className="main">
       <SignUp />
     </section>
   );
-}
+};
 
 export default Main;
