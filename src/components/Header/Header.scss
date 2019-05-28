@@ -1,8 +1,9 @@
-@import "../../assets/styles/variables";
+@import "~assets/styles/variables";
 
 .header {
-  box-shadow: 0 0 5px 0 $turquoise;
-  height: 70px;
-  text-align: center;
+  align-items: center;
+  color: $brown;
+  display: flex;
+  height: 60px;
   width: 100%;
 }

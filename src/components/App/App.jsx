@@ -8,11 +8,12 @@ import "./App.scss";
 
 const App = props => {
   return (
-    <section className="main-layout">
+    <div className="container">
+      <Header />
       <Switch>
         <Route path={"/"} component={Main} />
       </Switch>
-    </section>
+    </div>
   );
 };
 
