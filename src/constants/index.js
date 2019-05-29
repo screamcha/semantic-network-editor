@@ -1,3 +1,3 @@
-export const saveMethods = {
-  SERVER: "server"
+export const paths = {
+  HOME: "/",
 };

@@ -2,9 +2,12 @@
 
 .header {
   align-items: center;
+  background-color: $bg-gray;
   color: $brown;
   display: flex;
   height: 60px;
+  padding: 0 50px;
+  position: fixed;
   width: 100%;
 
   .header__content {
@@ -14,9 +17,15 @@
   }
 
   .header__logo {
+    font-size: 20px;
     font-weight: 700;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
+    transition: color 0.5s;
+
+    &:hover {
+      color: $black;
+    }
   }
 
   .header__buttons {
