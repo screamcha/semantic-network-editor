@@ -1,4 +1,4 @@
-@import "~assets/styles/variables";
+@import "~assets/styles/mixins";
 
 .header {
   align-items: center;
@@ -9,6 +9,10 @@
   padding: 0 50px;
   position: fixed;
   width: 100%;
+
+  @include small {
+    padding: 0;
+  }
 
   .header__content {
     display: flex;

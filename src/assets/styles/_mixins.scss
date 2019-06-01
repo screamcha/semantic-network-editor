@@ -1,0 +1,39 @@
+@import "./variables";
+
+@mixin small {
+  @media screen and (max-width: $small) {
+    @content;
+  }
+}
+
+@mixin medium {
+  @media screen and (min-width: $small + 1) and (max-width: $medium) {
+    @content;
+  }
+}
+@mixin medium-up {
+  @media screen and (min-width: $small + 1) {
+    @content;
+  }
+}
+@mixin medium-down {
+  @media screen and (max-width: $medium) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media screen and (min-width: $medium + 1) and (max-width: $large) {
+    @content;
+  }
+}
+@mixin large-up {
+  @media screen and (min-width: $medium + 1) {
+    @content;
+  }
+}
+@mixin large-down {
+  @media screen and (max-width: $large) {
+    @content;
+  }
+}

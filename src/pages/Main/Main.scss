@@ -1,7 +1,11 @@
-@import "~assets/styles/variables";
+@import "~assets/styles/mixins";
 
 .main-page {
   padding: 0 50px;
+
+  @include small {
+    padding: 0;
+  }
   .main-page__content {
     background: url("../../assets/images/main_background.jpg");
     background-attachment: fixed;
@@ -30,5 +34,15 @@
   .hero-section__title {
     font-size: 112px;
     letter-spacing: 1.5rem;
+
+    @include medium {
+      font-size: 80px;
+      letter-spacing: 1.1rem;
+    }
+
+    @include small {
+      font-size: 50px;
+      letter-spacing: 1.1rem;
+    }
   }
 }
