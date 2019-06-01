@@ -1,0 +1,23 @@
+@import "~assets/styles/mixins";
+
+.modal-wrapper {
+  background-color: $black--50;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  width: 100vw;
+
+  .modal {
+    background-color: $bg-gray;
+    border-radius: 5px;
+    left: 50%;
+    min-height: 200px;
+    min-width: 300px;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+  }
+}
