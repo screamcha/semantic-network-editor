@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Modal from "components/Modal";
+import SignUpModal from "pages/Main/components/SignUpModal";
 import { paths } from "constants";
 import useModal from "hooks/useModal";
 
@@ -12,9 +12,7 @@ const Header = props => {
 
   return (
     <>
-      <Modal isOpen={isOpen} toggleOpen={toggleOpen}>
-        hi!
-      </Modal>
+      <SignUpModal isOpen={isOpen} toggleOpen={toggleOpen} />
       <header className="header">
         <div className="header__content">
           <span className="header__logo">
@@ -22,7 +20,7 @@ const Header = props => {
           </span>
           <ul className="header__buttons">
             <li className="header__button" onClick={toggleOpen}>
-              Sign in
+              Sign up
             </li>
           </ul>
         </div>
