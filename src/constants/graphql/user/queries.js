@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import body from "./scheme";
+import body from "./schema";
 
 export const GET_USER = gql`
     query {

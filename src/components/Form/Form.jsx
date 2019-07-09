@@ -9,7 +9,6 @@ const Form = ({ name, onSubmit, children }) => {
     onSubmit
   );
 
-  console.log(children);
   const childrenToRender = React.Children.map(children, child => {
     const validators = child.props.validators
       ? child.props.validators.map(validator => value =>

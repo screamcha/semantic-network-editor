@@ -1,17 +1,19 @@
 import client from "./client";
-import { CREATE_USER } from "constants/graphql/user/mutations";
+import { SIGN_UP } from "constants/graphql/user/mutations";
+import { setToken } from "utils/token";
 
-export const createUser = async ({ username, password }) => {
+export const signUp = async ({ username, password }) => {
   try {
     const result = await client.mutate({
-      mutation: CREATE_USER,
+      mutation: SIGN_UP,
       variables: {
         username,
-        password
-      }
+        password,
+      },
     });
 
-    return result;
+    const token = result.data.signUp;
+    setToken(token);
   } catch (error) {
     console.log("GraphQL error", error);
   }
