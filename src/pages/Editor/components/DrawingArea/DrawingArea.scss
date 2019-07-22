@@ -1,0 +1,7 @@
+@import '~assets/styles/mixins';
+
+.drawing-area {
+    box-shadow: 0 0 5px $black;
+    height: 75vh;
+    width: 100%;
+}

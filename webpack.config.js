@@ -45,7 +45,7 @@ module.exports = {
       utils: path.resolve(__dirname, "src/utils"),
     },
   },
-  devtool: "inline-source-map",
+  devtool: "source-map",
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
@@ -53,5 +53,6 @@ module.exports = {
   ],
   devServer: {
     contentBase: path.join(__dirname, "dist"),
+    historyApiFallback: true,
   },
 };

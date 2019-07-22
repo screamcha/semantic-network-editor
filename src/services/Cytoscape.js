@@ -1,48 +1,49 @@
 import cytoscape from "cytoscape";
-import { JSONToCytoscape, cytoscapeToJSON } from "utils/parsers";
-import { updateGraph } from "services/apollo";
-import { saveMethods } from "constants/index";
+// import { JSONToCytoscape, cytoscapeToJSON } from "utils/parsers";
+import { getGraph, updateGraph } from "services/apollo/graph";
 import constStyles from "constants/graphStyles";
 
 class Cytoscape {
   constructor(container) {
     this.cy = cytoscape({ container });
     this.cy.layout({
-      name: "preset"
+      name: "preset",
     });
   }
 
-  on(event, handler) {
-    this.cy.on(event, handler);
+  setEvents(handlers) {
+    const events = Object.keys(handlers);
+
+    events.forEach(event => this.cy.on(event, handlers[event]));
   }
 
-  createGraphFromJSON(json) {
-    const { elements, styles } = JSONToCytoscape(json);
-    const _styles = [...styles, ...constStyles];
+  // createGraphFromJSON(json) {
+  //   const { elements, styles } = JSONToCytoscape(json);
+  //   const _styles = [...styles, ...constStyles];
 
-    this.cy.remove("");
+  //   this.cy.remove("");
 
-    this.cy.add(elements);
-    this.cy.style(_styles);
-  }
+  //   this.cy.add(elements);
+  //   this.cy.style(_styles);
+  // }
 
-  saveOnServer(graph, graphId) {
-    if (graphId) {
-      updateGraph(graphId, graph);
-    }
-  }
+  // saveOnServer(graph, graphId) {
+  //   if (graphId) {
+  //     updateGraph(graphId, graph);
+  //   }
+  // }
 
-  save(method, options) {
-    const data = this.cy.json();
+  // save(method, options) {
+  //   const data = this.cy.json();
 
-    const payload = cytoscapeToJSON(data);
-    switch (method) {
-      case saveMethods.SERVER:
-        return this.saveOnServer(payload, options.graphId);
-      default:
-        return payload;
-    }
-  }
+  //   const payload = cytoscapeToJSON(data);
+  //   switch (method) {
+  //     case saveMethods.SERVER:
+  //       return this.saveOnServer(payload, options.graphId);
+  //     default:
+  //       return payload;
+  //   }
+  // }
 }
 
 export default Cytoscape;

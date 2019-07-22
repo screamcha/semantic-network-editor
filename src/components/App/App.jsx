@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import Header from "components/Header";
 import Main from "pages/Main";
+import Editor from "pages/Editor";
 
 import { paths } from "constants";
 
@@ -13,7 +14,8 @@ const App = props => {
     <div className="container">
       <Header />
       <Switch>
-        <Route path={paths.HOME} component={Main} />
+        <Route path={paths.HOME} exact={true} component={Main} />
+        <Route path={paths.EDITOR} component={Editor} />
       </Switch>
     </div>
   );
